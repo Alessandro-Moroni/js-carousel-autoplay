@@ -2,9 +2,10 @@ const imgWrapper = document.querySelector('.img-wrapper');
 const up = document.querySelector('.up');
 const down = document.querySelector('.down');
 const imagesList = document.querySelector('.list-img')
-
+const caroulse = document.querySelector('.carousel')
 
 let counterImg = 0;
+let stopScroll = setInterval(scrollDown , 3000);
 
 const images = [
   'consegna/img/01.webp',
@@ -29,11 +30,33 @@ itemsCollection[counterImg].classList.remove('hide');
 const smallImages = document.getElementsByClassName('images-list');
 smallImages[0].classList.remove('opacity');
 
+// tatso up
+up.addEventListener('click', function(){
+  scrollUp();
+})
 
+// tasto down
+down.addEventListener('click', function(){
+  scrollDown()
+})
 
-setInterval(function(){
+function scrollUp(){
+  smallImages[counterImg].classList.add('opacity');
 
-   
+  itemsCollection[counterImg--].classList.add('hide');
+  
+  if(counterImg < 0){
+    counterImg = images.length - 1;
+  }
+
+  itemsCollection[counterImg].classList.remove('hide');
+
+  smallImages[counterImg].classList.remove('opacity');
+  
+  down.classList.remove('hide');
+}
+
+function scrollDown(){
   up.classList.remove('hide');
 
   smallImages[counterImg].classList.add('opacity');
@@ -46,5 +69,13 @@ setInterval(function(){
   itemsCollection[counterImg].classList.remove('hide');
   
   smallImages[counterImg].classList.remove('opacity');
-  
-},3000)
+}
+
+caroulse.addEventListener('mouseout', function(){
+ stopScroll = setInterval(scrollDown , 3000);
+ 
+})
+
+caroulse.addEventListener('mouseover', function(){
+ clearInterval(stopScroll);
+})
